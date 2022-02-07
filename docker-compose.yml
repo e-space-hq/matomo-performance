@@ -6,7 +6,7 @@ services:
     volumes:
       - ./matomo:/var/www/html
     ports:
-    - "8001:80"
+    - "8000:80"
 
   db:
     image: mysql:5.7
@@ -15,13 +15,13 @@ services:
       - mysql:/var/lib/mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: prisma
+      MYSQL_ROOT_PASSWORD: matomo123
 
   phpmyadmin:
     image: phpmyadmin
     restart: unless-stopped
     ports:
-      - 8003:80
+      - 8001:80
     environment:
       - PMA_ARBITRARY=1
 
