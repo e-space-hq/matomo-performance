@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  matomo:
+    image: matomo:4.7
+    restart: unless-stopped
+    volumes:
+      - ./matomo:/var/www/html
+    ports:
+    - "8001:80"
+
+  db:
+    image: mysql:5.7
+    command: mysqld
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: prisma
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8003:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  clickhouse:
+    image: yandex/clickhouse-server
+    volumes:
+      - clickhouse:/var/lib/clickhouse
+      - ./clickhouse.config.xml:/etc/clickhouse-server/config.d/custom.xml
+    restart: unless-stopped
+    ports:
+      - "8124:8123"
+
+volumes:
+  mysql:
+  clickhouse:
